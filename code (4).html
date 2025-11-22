@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOY UNITED Football Club - Staff/Admin View</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #333;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.8s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        h1 {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .login {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1.2s ease-in;
+        }
+        .login input {
+            padding: 12px;
+            margin: 10px;
+            border: 2px solid #90caf9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .login input:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 10px rgba(25, 118, 210, 0.3);
+            outline: none;
+        }
+        .login button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #1976d2, #42a5f5);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .login button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
+        }
+        .alert {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            animation: bounceIn 0.5s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .alert.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+        .stats {
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #1976d2;
+            animation: fadeIn 1.5s ease-in;
+        }
+        .filters {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .filters select, .filters button {
+            padding: 10px 15px;
+            border: 2px solid #90caf9;
+            border-radius: 8px;
+            background: white;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .filters select:focus, .filters button:hover {
+            border-color: #1976d2;
+            box-shadow: 0 0 10px rgba(25, 118, 210, 0.3);
+        }
+        .filters button.active {
+            background: #1976d2;
+            color: white;
+        }
+        .member-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .member-card {
+            border: 1px solid #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+        .member-card:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+        .member-card:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .member-card img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #1976d2;
+            transition: transform 0.3s;
+        }
+        .member-card img:hover {
+            transform: scale(1.1);
+        }
+        .member-card p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .member-card p strong {
+            color: #1976d2;
+        }
+        .full-team {
+            color: #d32f2f;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            .member-list {
+                grid-template-columns: 1fr;
+            }
+            .filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SOY UNITED Football Club - Staff/Admin View</h1>
+        <div id="loginSection" class="login">
+            <p>Enter password to access member data:</p>
+            <input type="password" id="passwordInput" placeholder="Password">
+            <button id="loginBtn">Login</button>
+        </div>
+        <div id="alert" class="alert"></div>
+        <div id="content" style="display: none;">
+            <div class="stats" id="stats"></div>
+            <div class="filters">
+                <select id="teamFilter">
+                    <option value="">All Teams</option>
+                    <option value="Junior">Junior</option>
+                    <option value="Senior">Senior</option>
+                </select>
+                <select id="sortBy">
+                    <option value="age">Sort by Age</option>
+                    <option value="name">Sort by Name</option>
+                    <option value="team">Sort by Team</option>
+                </select>
+                <button id="sortAsc">Ascending</button>
+                <button id="sortDesc">Descending</button>
+            </div>
+            <div class="member-list" id="memberList"></div>
+        </div>
+    </div>
+
+    <script>
+        const loginSection = document.getElementById('loginSection');
+        const content = document.getElementById('content');
+        const alertDiv = document.getElementById('alert');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const statsDiv = document.getElementById('stats');
+        const memberListDiv = document.getElementById('memberList');
+        const teamFilter = document.getElementById('teamFilter');
+        const sortBy = document.getElementById('sortBy');
+        const sortAscBtn = document.getElementById('sortAsc');
+        const sortDescBtn = document.getElementById('sortDesc');
+
+        const PROTOTYPE_PASSWORD = '1234';
+
+        // Login functionality
+        loginBtn.addEventListener('click', function() {
+            if (passwordInput.value === PROTOTYPE_PASSWORD) {
+                loginSection.style.display = 'none';
+                content.style.display = 'block';
+                loadMembers();
+            } else {
+                showAlert('Incorrect password. Access denied.', 'error');
+            }
+        });
+
+        // Load and display members
+        function loadMembers() {
+            const members = JSON.parse(localStorage.getItem('soyUnitedMembers')) || [];
+            const juniorCount = members.filter(m => m.team === 'Junior').length;
+            const seniorCount = members.filter(m => m.team === 'Senior').length;
+
+            // Update stats
+            statsDiv.innerHTML = `
+                <p>Junior: ${juniorCount}/22 ${juniorCount >= 22 ? '<span class="full-team">(Full)</span>' : ''}</p>
+                <p>Senior: ${seniorCount}/22 ${seniorCount >= 22 ? '<span class="full-team">(Full)</span>' : ''}</p>
+            `;
+
+            // Display members
+            displayMembers(members);
+        }
+
+        // Display members with filtering and sorting
+        function displayMembers(members) {
+            let filteredMembers = [...members];
+
+            // Filter by team
+            const team = teamFilter.value;
+            if (team) {
+                filteredMembers = filteredMembers.filter(m => m.team === team);
+            }
+
+            // Sort
+            const sortField = sortBy.value;
+            const sortOrder = sortAscBtn.classList.contains('active') ? 1 : -1;
+            filteredMembers.sort((a, b) => {
+                if (sortField === 'age') {
+                    return (a.age - b.age) * sortOrder;
+                } else if (sortField === 'name') {
+                    // Assuming name is not in the data, but if it were, use it. For now, sort by age as fallback.
+                    return (a.age - b.age) * sortOrder; // Placeholder
+                } else if (sortField === 'team') {
+                    return a.team.localeCompare(b.team) * sortOrder;
+                }
+                return 0;
+            });
+
+            // Render cards
+            memberListDiv.innerHTML = '';
+            filteredMembers.forEach((member, index) => {
+                const card = document.createElement('div');
+                card.className = 'member-card';
+                card.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                card.innerHTML = `
+                    <img src="${member.profilePicture}" alt="Profile Picture">
+                    <p><strong>Age:</strong> ${member.age}</p>
+                    <p><strong>Team:</strong> ${member.team}</p>
+                    <p><strong>${member.team === 'Junior' ? 'Birth Certificate Number' : 'National ID Number'}:</strong> ${member.team === 'Junior' ? member.birthCert : member.nationalId}</p>
+                    ${member.team === 'Junior' ? `<p><strong>Guardian/Parent Name:</strong> ${member.guardianName}</p>` : ''}
+                    <p><strong>Guardian/Parent Phone Number:</strong> ${member.guardianPhone}</p>
+                    ${member.position ? `<p><strong>Position:</strong> ${member.position}</p>` : ''}
+                    ${member.bio ? `<p><strong>Short Bio:</strong> ${member.bio}</p>` : ''}
+                `;
+                memberListDiv.appendChild(card);
+            });
+        }
+
+        // Event listeners for filters and sorting
+        teamFilter.addEventListener('change', () => displayMembers(JSON.parse(localStorage.getItem('soyUnitedMembers')) || []));
+        sortBy.addEventListener('change', () => displayMembers(JSON.parse(localStorage.getItem('soyUnitedMembers')) || []));
+        sortAscBtn.addEventListener('click', function() {
+            sortAscBtn.classList.add('active');
+            sortDescBtn.classList.remove('active');
+            displayMembers(JSON.parse(localStorage.getItem('soyUnitedMembers')) || []);
+        });
+        sortDescBtn.addEventListener('click', function() {
+            sortDescBtn.classList.add('active');
+            sortAscBtn.classList.remove('active');
+            displayMembers(JSON.parse(localStorage.getItem('soyUnitedMembers')) || []);
+        });
+
+        // Show alert
+        function showAlert(message, type) {
+            alertDiv.textContent = message;
+            alertDiv.className = `alert ${type}`;
+            alertDiv.style.display = 'block';
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

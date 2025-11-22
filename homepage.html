@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOY UNITED FOOTBALL CLUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- For profile icon -->
+    <style>
+        /* ===== General Styles ===== */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); /* Light blue gradient background */
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%); /* Blue gradient header */
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-link {
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .logo-link span {
+            color: #ffeb3b; /* Yellow accent for "SOY" */
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .link {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .link:hover, .link:focus {
+            background-color: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+            outline: 2px solid white;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-promo, .btn-signup {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-promo {
+            background: linear-gradient(45deg, #ff5722, #ff9800); /* Orange-red gradient */
+            color: white;
+        }
+
+        .btn-signup {
+            background: linear-gradient(45deg, #4caf50, #8bc34a); /* Green gradient */
+            color: white;
+        }
+
+        .btn-promo:hover, .btn-signup:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ===== Founder Profile Section ===== */
+        .founder-section {
+            padding: 120px 30px 80px; /* Account for fixed header */
+            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%); /* Subtle white-blue gradient */
+            text-align: center;
+        }
+
+        .founder-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .founder-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .profile-icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #007bff, #00bcd4); /* Blue gradient */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+            box-shadow: 0 10px 30px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            animation: bounceIn 1s ease-out;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0,123,255,0.5);
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .founder-info h2 {
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,123,255,0.3);
+        }
+
+        .founder-info p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .praise-section {
+            background: linear-gradient(45deg, #007bff, #0056b3); /* Blue gradient */
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,123,255,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .praise-section h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .praise-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Team Introduction Section ===== */
+        .team-section {
+            padding: 80px 30px;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%); /* Light blue gradient */
+            text-align: center;
+        }
+
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #007bff, #00bcd4); /* Blue gradient for logo placeholder */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 80px;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            animation: slideIn 1s ease-out;
+        }
+
+        .team-logo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0,123,255,0.5);
+        }
+
+        .team-title {
+            font-size: 48px;
+            color: #007bff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,123,255,0.3);
+        }
+
+        .team-desc p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .team-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,123,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,123,255,0.4);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            filter: brightness(1.1) saturate(1.2);
+            transform: scale(1.05);
+        }
+
+        .gallery-caption {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .gallery-caption h3 {
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .gallery-caption p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .founder-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-icon {
+                width: 120px;
+                height: 120px;
+                font-size: 50px;
+            }
+            .team-logo {
+                width: 150px;
+                height: 150px;
+                font-size: 60px;
+            }
+            .team-title {
+                font-size: 36px;
+            }
+            .team-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <a href="#" class="logo-link"><span>SOY</span>UNITED</a>
+        <nav class="navigation" id="navigation">
+            <a href="homepage.html" class="link">HOME</a>
+            <a href="players.html" class="link">PLAYERS</a>
+            <a href="fixtures.html" class="link">MATCH FIXTURES</a>
+            <a href="#" class="link">YOUNG PLAYERS REGISTRATION</a>
+            <a href="soyclubshop.html" class="link">SHOP</a>
+          
+          
+        </nav>
+        <div class="controls">
+            <button class="btn-promo">DONATE TO PLAYERS</button>
+            <button class="btn-signup">YOUNG PLAYERS SIGNUP</button>
+        </div>
+    </header>
+
+    <!-- Founder Profile Section at the Top -->
+    <section class="founder-section">
+        <div class="founder-container">
+            <div class="founder-profile">
+                <div class="profile-icon">
+
+                   
+
+                    <i class="fas fa-user-tie"></i> <!-- Profile icon using Font Awesome -->
+                </div>
+                <div class="founder-info">
+                    <h2>Meet Our Founder</h2>
+                    <p>[Founder's Name] is the visionary behind SOY UNITED FOOTBALL CLUB. With years of experience in football and community building, he has dedicated his life to fostering young talent and promoting the spirit of the game.</p>
+                </div>
+            </div>
+            <div class="praise-section">
+                <h3>Praise for the Founder</h3>
+                <p>"[Founder's Name] has transformed our club into a beacon of excellence. His leadership, passion, and commitment to youth development have inspired countless players and fans. Under his guidance, SOY UNITED has become more than a club—it's a family united by the love of football. Thank you for your unwavering dedication!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Introduction Section Below -->
+    <section class="team-section">
+        <div class="team-container">
+            <div class="team-logo">
+                <i class="fas fa-shield-alt"></i> <!-- Team logo icon placeholder -->
+            </div>
+            <h1 class="team-title">Introducing SOY UNITED FC</h1>
+            <div class="team-desc">
+                <p>
+                    Football is more than a game—it is a spirit that brings people together, inspires hard work, and builds champions on and off the field. At our club, we believe in nurturing talent, promoting discipline, and giving every player the opportunity to grow. Every match, every training session, and every challenge is a chance to improve, to rise, and to write a new chapter of success.
+                    We are driven by passion, teamwork, and the unwavering belief that greatness is earned through dedication.
+                    This platform celebrates that journey—uniting players, fans, and the community through the beautiful game.
+                </p>
+            </div>
+            <div class="team-gallery">
+                <div class="gallery-item">
+                    <img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/504357368_1118070230339844_4503779489429216421_n.jpg" alt="Team players in action">
+                    <div class="gallery-caption">
+                        <h3>Our Team</h3>
+                        <p>Meet the talented players who make SOY UNITED shine on the field.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://example.com/home-ground.jpg" alt="Home ground stadium"> <!-- Replace with actual home ground image URL -->
+                    <div class="gallery-caption">
+                        <h3>Our Home Ground</h3>
+                        <p>The iconic stadium where legends are made and memories created.</p>
+                    </div>
+                </div>
+                <!-- Add more gallery items as needed -->
+            </div>
+        </div>
+    </section>
+</body>
+</html>

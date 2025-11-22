@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOY UNITED Football Club - Player Registration</title>
+<style>
+    body { font-family: Arial, sans-serif; margin:0; padding:20px; background-color:#f4f4f4; color:#333; }
+    .container { max-width:600px; margin:0 auto; background:white; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    h1 { text-align:center; color:#007bff; }
+    form { display:flex; flex-direction:column; }
+    label { margin-top:10px; font-weight:bold; }
+    input, select, textarea { padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:4px; font-size:16px; }
+    input[type="file"] { padding:5px; }
+    button { margin-top:20px; padding:10px; background-color:#28a745; color:white; border:none; border-radius:4px; cursor:pointer; font-size:16px; }
+    button:disabled { background-color:#ccc; cursor:not-allowed; }
+    .alert { margin-top:10px; padding:10px; border-radius:4px; display:none; }
+    .alert.error { background-color:#f8d7da; color:#721c24; }
+    .alert.success { background-color:#d4edda; color:#155724; }
+    .profile-preview { margin-top:10px; max-width:100px; max-height:100px; border-radius:50%; display:none; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>SOY UNITED Football Club - New Player Registration</h1>
+    <form id="registrationForm">
+        <label for="fullName">Full Name *</label>
+        <input type="text" id="fullName" required>
+
+        <label for="dob">Date of Birth *</label>
+        <input type="date" id="dob" required>
+
+        <div id="idFieldContainer">
+            <label for="idNumber">Birth Certificate / National ID *</label>
+            <input type="text" id="idNumber" required>
+        </div>
+
+        <label for="guardianName">Guardian/Parent Name *</label>
+        <input type="text" id="guardianName" required>
+
+        <label for="guardianPhone">Guardian/Parent Phone Number *</label>
+        <input type="tel" id="guardianPhone" required>
+
+        <label for="profilePicture">Profile Picture *</label>
+        <input type="file" id="profilePicture" accept="image/*" required>
+        <img id="profilePreview" class="profile-preview" alt="Profile Preview">
+
+        <label for="position">Position (Optional)</label>
+        <select id="position">
+            <option value="">Select Position</option>
+            <option value="Goalkeeper">Goalkeeper</option>
+            <option value="Defender">Defender</option>
+            <option value="Midfielder">Midfielder</option>
+            <option value="Forward">Forward</option>
+        </select>
+
+        <label for="bio">Short Bio (Optional)</label>
+        <textarea id="bio" rows="3"></textarea>
+
+        <button type="submit" id="submitBtn" disabled>Register Player</button>
+    </form>
+    <div id="alert" class="alert"></div>
+</div>
+
+<script>
+const form = document.getElementById('registrationForm');
+const submitBtn = document.getElementById('submitBtn');
+const alertDiv = document.getElementById('alert');
+const profileInput = document.getElementById('profilePicture');
+const profilePreview = document.getElementById('profilePreview');
+const idNumberInput = document.getElementById('idNumber');
+const guardianNameInput = document.getElementById('guardianName');
+const guardianPhoneInput = document.getElementById('guardianPhone');
+
+let members = JSON.parse(localStorage.getItem('soyUnitedMembers')) || [];
+let juniorCount = members.filter(m => m.team === 'Junior').length;
+let seniorCount = members.filter(m => m.team === 'Senior').length;
+
+// Check if teams are full
+function checkTeamLimits() {
+    if(juniorCount >= 22 && seniorCount >= 22){
+        submitBtn.disabled = true;
+        showAlert('Both Junior and Senior teams are full. Registration is closed.', 'error');
+    }
+}
+checkTeamLimits();
+
+// Enable submit button only when mandatory fields are filled
+function checkFormValidity() {
+    const fullName = document.getElementById('fullName').value.trim();
+    const dob = document.getElementById('dob').value;
+    const idNumber = idNumberInput.value.trim();
+    const profile = profileInput.files[0];
+
+    // Determine age
+    const age = dob ? calculateAge(dob) : null;
+
+    // Guardian mandatory only for juniors
+    let guardianFilled = true;
+    if(age !== null && age < 18){
+        guardianFilled = guardianNameInput.value.trim() && guardianPhoneInput.value.trim();
+    }
+
+    submitBtn.disabled = !(fullName && dob && idNumber && profile && guardianFilled);
+}
+
+form.addEventListener('input', checkFormValidity);
+profileInput.addEventListener('change', checkFormValidity);
+
+// Profile preview
+profileInput.addEventListener('change', function(){
+    const file = profileInput.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            profilePreview.src = e.target.result;
+            profilePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else { profilePreview.style.display = 'none'; }
+});
+
+// Calculate age
+function calculateAge(dob){
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if(monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+    return age;
+}
+
+// Check for duplicates
+function isDuplicate(idNumber){
+    return members.some(m => m.idNumber === idNumber);
+}
+
+// Form submission
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const dob = document.getElementById('dob').value;
+    const age = calculateAge(dob);
+    const idNumber = idNumberInput.value.trim();
+    const guardianName = guardianNameInput.value.trim();
+    const guardianPhone = guardianPhoneInput.value.trim();
+    const position = document.getElementById('position').value;
+    const bio = document.getElementById('bio').value.trim();
+
+    if(age >=18 && age < 20){
+        showAlert('You must be under 18 for Junior or 20+ for Senior.', 'error');
+        return;
+    }
+
+    let team;
+    if(age < 18){
+        team = 'Junior';
+        if(juniorCount >= 22){ showAlert('Junior team is full.', 'error'); return; }
+    } else {
+        team = 'Senior';
+        if(seniorCount >= 22){ showAlert('Senior team is full.', 'error'); return; }
+    }
+
+    if(isDuplicate(idNumber)){
+        showAlert('Duplicate Birth Certificate or National ID detected. Registration blocked.', 'error');
+        return;
+    }
+
+    const file = profileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e){
+        const profilePicture = e.target.result;
+
+        const member = {
+            id: Date.now(),
+            name: fullName,
+            dob: dob,
+            age: age,
+            idNumber: idNumber,
+            guardianName: age<18?guardianName:null,
+            guardianPhone: age<18?guardianPhone:null,
+            profilePicture: profilePicture,
+            position: position || null,
+            bio: bio || null,
+            team: team
+        };
+
+        members.push(member);
+        localStorage.setItem('soyUnitedMembers', JSON.stringify(members));
+        if(team==='Junior') juniorCount++; else seniorCount++;
+
+        showAlert('Your records have been sent successfully. We will contact you.', 'success');
+        form.reset();
+        profilePreview.style.display='none';
+        checkFormValidity();
+        checkTeamLimits();
+    };
+    reader.readAsDataURL(file);
+});
+
+function showAlert(message, type){
+    alertDiv.textContent = message;
+    alertDiv.className = `alert ${type}`;
+    alertDiv.style.display='block';
+    setTimeout(()=>{ alertDiv.style.display='none'; },5000);
+}
+</script>
+</body>
+</html>

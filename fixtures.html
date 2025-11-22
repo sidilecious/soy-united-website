@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOY UNITED FC - Fixtures</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Sans", sans-serif;
+            line-height: 1.6;
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        /* Header and navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #c90303;
+            padding: 15px 30px;
+            color: #fff;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navigation .link {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .navigation .link:hover {
+            color: #ffd700;
+        }
+
+        /* Main content */
+        main {
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            color: #c90303;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #c90303;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tbody tr:hover {
+            background-color: #ffe6e6;
+        }
+
+        /* Logo inside table */
+        .pl-table img {
+            width: 25px;
+            height: 25px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* Section spacing */
+        .fixtures-section, .ranking-section {
+            margin-bottom: 50px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            table th, table td {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">SOY UNITED FC</div>
+        <nav class="navigation">
+            <a href="homepage.html" class="link">HOME</a>
+            <a href="players.html" class="link">PLAYERS</a>
+            <a href="fixtures.html" class="link">MATCH FIXTURES</a>
+            <a href="registration.html" class="link">REGISTRATION</a>
+            <a href="shop.html" class="link">SHOP</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Match Fixtures -->
+        <section class="fixtures-section">
+            <h1>Match Fixtures</h1>
+            <p>Here are the upcoming matches for Soy United FC:</p>
+            <table class="fixtures-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Opponent</th>
+                        <th>Venue</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>25 Nov 2025</td>
+                        <td>Riverside FC</td>
+                        <td>Home</td>
+                        <td>3:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>2 Dec 2025</td>
+                        <td>Hilltop FC</td>
+                        <td>Away</td>
+                        <td>4:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td>10 Dec 2025</td>
+                        <td>City Warriors</td>
+                        <td>Home</td>
+                        <td>5:00 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Premier League Standings -->
+        <section class="ranking-section">
+            <h1>Premier League Standings - Soy United FC</h1>
+            <table class="pl-table">
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Team</th>
+                        <th>Pl</th>
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>GF</th>
+                        <th>GA</th>
+                        <th>GD</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/images.jpg" alt="Soy United Logo"> Soy United FC</td>
+                        <td>10</td>
+                        <td>8</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>20</td>
+                        <td>8</td>
+                        <td>+12</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Hilltop FC</td>
+                        <td>10</td>
+                        <td>7</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>18</td>
+                        <td>10</td>
+                        <td>+8</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>City Warriors</td>
+                        <td>10</td>
+                        <td>6</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>15</td>
+                        <td>9</td>
+                        <td>+6</td>
+                        <td>21</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop - Soy United FC</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body { font-family: 'Roboto', sans-serif; margin: 0; background: linear-gradient(135deg, #c90103 0%, #ffffff 50%, #4caf50 100%); color: #333; line-height: 1.6; }
+header { background: linear-gradient(90deg, #c90103 0%, #a10000 100%); padding: 20px 30px; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+header .logo { font-size: 28px; font-weight: 700; }
+nav { display: flex; align-items: center; }
+nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: 500; transition: 0.3s; }
+nav a:hover { color: #ffd700; }
+.cart-icon { font-size: 24px; cursor: pointer; margin-left: 20px; transition: 0.3s; }
+.cart-icon:hover { color: #ffd700; }
+.cart-count { background: #ffd700; color: #c90103; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -5px; right: -10px; }
+.hamburger { display: none; font-size: 24px; cursor: pointer; }
+.hero { text-align: center; padding: 50px 20px; background: url('https://via.placeholder.com/1200x400?text=Soy+United+FC+Shop') no-repeat center/cover; color: white; }
+.hero h1 { font-size: 48px; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 50px 30px; max-width: 1200px; margin: 0 auto; }
+.product-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); text-align: center; transition: transform 0.3s, box-shadow 0.3s; overflow: hidden; }
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+.product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+.product-card h3 { margin: 15px 0 10px 0; font-size: 22px; color: #c90103; }
+.product-card p { margin: 10px 0; font-weight: 700; font-size: 18px; color: #555; }
+.quantity-select { padding: 8px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+.buy-btn { display: inline-block; padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; background: linear-gradient(90deg, #c90103 0%, #a10000 100%); color: white; font-weight: 700; margin-top: 15px; transition: 0.3s; }
+.buy-btn:hover { background: linear-gradient(90deg, #a10000 0%, #800000 100%); transform: scale(1.05); }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+.modal.show { display: flex; }
+.modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.modal h3 { margin-top: 0; color: #c90103; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px 0; border-bottom: 1px solid #eee; }
+.remove-btn { padding: 5px 10px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }
+.checkout-btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 25px; background: linear-gradient(90deg, #4caf50 0%, #388e3c 100%); color: white; font-weight: 700; margin-top: 20px; cursor: pointer; transition: 0.3s; }
+.checkout-btn:hover { background: linear-gradient(90deg, #388e3c 0%, #2e7d32 100%); }
+.close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #aaa; }
+footer { text-align: center; padding: 30px; background: #222; color: white; margin-top: 50px; }
+footer a { color: #ffd700; margin: 0 10px; text-decoration: none; }
+@media (max-width: 768px) { nav { display: none; } .hamburger { display: block; } .shop-container { grid-template-columns: 1fr; padding: 20px; } .hero h1 { font-size: 32px; } }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">SOY UNITED FC</div>
+    <nav>
+        <a href="homepage.html">Home</a>
+        <a href="players.html">Players</a>
+        <a href="fixtures.html">Fixtures</a>
+        <a href="registration.html">Registration</a>
+        <a href="soyclubshop.html">Shop</a>
+        <div class="cart-icon" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </nav>
+    <div class="hamburger" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Welcome to Soy United FC Shop</h1>
+    <p>Get your official gear and support the team!</p>
+</section>
+
+<div class="shop-container">
+    <div class="product-card" data-price="3000" data-name="Team Jersey">
+        <img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/486222576_122146855136484441_3535948363355563393_n.jpg" alt="Team Jersey">
+        <h3>Team Jersey</h3>
+        <p>KSH 3,000</p>
+        <label>Quantity:
+            <select class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </label>
+        <button class="buy-btn" onclick="addToCart(this)">Buy Now</button>
+    </div>
+
+    <div class="product-card" data-price="800" data-name="Team Scarf">
+        <img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/486222576_122146855136484441_3535948363355563393_n.jpg" alt="Team Scarf">
+        <h3>Team Scarf</h3>
+        <p>KSH 800</p>
+        <label>Quantity:
+            <select class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </label>
+        <button class="buy-btn" onclick="addToCart(this)">Buy Now</button>
+    </div>
+
+    <div class="product-card" data-price="600" data-name="Team Cap">
+        <img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/486222576_122146855136484441_3535948363355563393_n.jpg" alt="Team Cap">
+        <h3>Team Cap</h3>
+        <p>KSH 600</p>
+        <label>Quantity:
+            <select class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </label>
+        <button class="buy-btn" onclick="addToCart(this)">Buy Now</button>
+    </div>
+
+    <div class="product-card" data-price="1500" data-name="Team Shorts">
+        <img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/486222576_122146855136484441_3535948363355563393_n.jpg" alt="Team Shorts">
+        <h3>Team Shorts</h3>
+        <p>KSH 1,500</p>
+        <label>Quantity:
+            <select class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </label>
+        <button class="buy-btn" onclick="addToCart(this)">Buy Now</button>
+    </div>
+
+    <div class="product-card" data-price="400" data-name="Team Socks">
+        <img src="https://uploads.onecompiler.io/42tdzxuqq/43mjbfwez/486222576_122146855136484441_3535948363355563393_n.jpg" alt="Team Socks">
+        <h3>Team Socks</h3>
+        <p>KSH 400</p>
+        <label>Quantity:
+            <select class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </label>
+        <button class="buy-btn" onclick="addToCart(this)">Buy Now</button>
+    </div>
+</div>
+
+<div class="modal" id="cart-modal">
+    <div class="modal-content">
+        <span class="close" onclick="toggleCart()">&times;</span>
+        <h3>Your Cart</h3>
+        <div id="cart-items"></div>
+        <p id="cart-total">Total: KSH 0</p>
+        <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    </div>
+</div>
+
+<script>
+let cart = { items: [], total: 0 };
+
+function addToCart(button) {
+    const card = button.parentElement;
+    const qty = parseInt(card.querySelector(".quantity-select").value);
+    const price = parseInt(card.dataset.price);
+    const name = card.dataset.name;
+
+    let existingItem = cart.items.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.qty += qty;
+    } else {
+        cart.items.push({ name, qty, price });
+    }
+
+    cart.total += price * qty;
+    renderCart();
+    updateCartCount();
+
+    button.innerText = `Added ${qty}!`;
+    button.disabled = true;
+    button.style.background = "#4caf50";
+}
+
+function renderCart() {
+    const cartDiv = document.getElementById("cart-items");
+    cartDiv.innerHTML = "";
+    cart.items.forEach((item, index) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "cart-item";
+        itemDiv.innerHTML = `
+            <span>${item.name} x${item.qty}</span>
+            <span>KSH ${item.price * item.qty}</span>
+            <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartDiv.appendChild(itemDiv);
+    });
+    document.getElementById("cart-total").innerText = `Total: KSH ${cart.total}`;
+}
+
+function removeFromCart(index) {
+    const item = cart.items[index];
+    cart.total -= item.price * item.qty;
+    cart.items.splice(index, 1);
+
+    const cards = document.querySelectorAll(".product-card");
+    cards.forEach(card => {
+        if (card.dataset.name === item.name) {
+            const btn = card.querySelector(".buy-btn");
+            btn.innerText = "Buy Now";
+            btn.disabled = false;
+            btn.style.background = "linear-gradient(90deg, #c90103 0%, #a10000 100%)";
+        }
+    });
+
+    renderCart();
+    updateCartCount();
+}
+
+function updateCartCount() {
+    const count = cart.items.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById("cart-count").innerText = count;
+}
+
+function toggleCart() {
+    const modal = document.getElementById("cart-modal");
+    modal.classList.toggle("show");
+}
+
+function toggleNav() {
+    const nav = document.querySelector("nav");
+    nav.style.display = nav.style.display === "flex" ? "none" : "flex";
+}
+
+function checkout() {
+    alert(`Checkout initiated! Total: KSH ${cart.total}. (Demo—integrate payments.)`);
+}
+</script>
+
+<footer>
+    <p>&copy; 2023 Soy United FC. All rights reserved.</p>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+</footer>
+
+</body>
+</html>
